@@ -1,0 +1,14 @@
+language: python
+python:
+  - 3.6
+services:
+  - docker
+install:
+  - docker build -t max-image-super-resolution-generator .
+  - docker run -it -d --rm -p 5000:5000 max-image-super-resolution-generator
+  - pip install pytest requests flake8 Pillow
+before_script:
+  - sleep 30
+script:
+  - flake8 . --max-line-length=127
+  - pytest tests/test.py

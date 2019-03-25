@@ -1,0 +1,12 @@
+README.*
+.idea/
+.git/
+.gitignore
+tests/
+.pytest_cache
+tests/
+assets/SRGAN/
+assets/.pytest_cache
+venv/
+benchmark_model/
+docs/
