@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/IBM/MAX-Image-Super-Resolution-Generator.svg?branch=master)](https://travis-ci.org/IBM/MAX-Image-Super-Resolution-Generator) 
+
 # IBM Developer Model Asset Exchange: Image Super-Resolution Generator
 
 This repository contains code to instantiate and deploy an image super-resolution generator. 
