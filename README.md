@@ -52,8 +52,8 @@ _NOTE: The SRGAN in the paper was trained on 350k ImageNet samples, whereas this
 
 | Component | License | Link  |
 | ------------- | --------  | -------- |
-| This repository | [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0) | [LICENSE](https://github.ibm.com/CODAIT/MAX-Image-Super-Resolution-Generator/blob/master/LICENSE) |
-| Model Weights | [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0) | [LICENSE](https://github.ibm.com/CODAIT/MAX-Image-Super-Resolution-Generator/blob/master/LICENSE) |
+| This repository | [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0) | [LICENSE](https://github.com/IBM/MAX-Image-Super-Resolution-Generator/blob/master/LICENSE) |
+| Model Weights | [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0) | [LICENSE](https://github.com/IBM/MAX-Image-Super-Resolution-Generator/blob/master/LICENSE) |
 | Model Code (3rd party) | [MIT](https://opensource.org/licenses/MIT) | [LICENSE](https://github.com/brade31919/SRGAN-tensorflow/blob/master/LICENSE.txt) |
 | Test assets | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) | [Asset README](assets/README.md) |
 |  | [CC0](https://creativecommons.org/publicdomain/zero/1.0/) | [Asset README](assets/README.md) |
@@ -87,7 +87,7 @@ You can also deploy the model on Kubernetes using the latest docker image on Doc
 On your Kubernetes cluster, run the following commands:
 
 ```
-$ kubectl apply -f https://github.ibm.com/CODAIT/MAX-Image-Super-Resolution-Generator/raw/master/max-image-super-resolution-generator.yaml
+$ kubectl apply -f https://github.com/IBM/MAX-Image-Super-Resolution-Generator/raw/master/max-image-super-resolution-generator.yaml
 ```
 
 The model will be available internally at port `5000`, but can also be accessed externally through the `NodePort`.
@@ -106,7 +106,7 @@ The model will be available internally at port `5000`, but can also be accessed 
 Clone this repository locally. In a terminal, run the following command:
 
 ```
-$ git clone https://github.ibm.com/CODAIT/MAX-Image-Super-Resolution-Generator.git
+$ git clone https://github.com/IBM/MAX-Image-Super-Resolution-Generator.git
 ```
 
 Change directory into the repository base folder:
