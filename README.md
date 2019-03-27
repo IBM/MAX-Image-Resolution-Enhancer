@@ -3,11 +3,9 @@
 # IBM Developer Model Asset Exchange: Image Super-Resolution Generator
 
 This repository contains code to instantiate and deploy an image super-resolution generator. 
-This model is able to upscale a pixelated image by factor 4x, while generating photo-realistic details.
+This model is able to upscale a pixelated image by a factor of 4, while generating photo-realistic details.
 
-The GAN is based on [this GitHub repository](https://github.com/brade31919/SRGAN-tensorflow) and the following research article:
-
-[Photo-Realistic Single Image Super-Resolution Using a Generative Adversarial Network](https://arxiv.org/pdf/1609.04802.pdf)
+The GAN is based on [this GitHub repository](https://github.com/brade31919/SRGAN-tensorflow) and on [this research article](https://arxiv.org/pdf/1609.04802.pdf).
 
 The model was trained on 600,000 images of the [OpenImages V4](https://storage.googleapis.com/openimages/web/index.html) dataset, and the model files are hosted on
 [IBM Cloud Object Storage](http://max-assets.s3.us.cloud-object-storage.appdomain.cloud/max-image-super-resolution-generator/1.0/assets.tar.gz).
@@ -150,10 +148,10 @@ _Left: input image (106×159). Right: output image (424×636)_
 You can also test it on the command line, for example:
 
 ```
-$ curl -F "image=@assets/test_examples/low_resolution/airplane.png" -XPOST http://localhost:5000/model/predict > airplane_high_res.png
+$ curl -F "image=@assets/test_examples/low_resolution/woman.png" -XPOST http://localhost:5000/model/predict > woman_high_res.png
 ```
 
-The above command will send the low resolution `airplane.png` file to the model, and save the high resolution output image to the `airplane_high_res.png` file in the root directory.
+The above command will send the low resolution `woman.png` file to the model, and save the high resolution output image to the `woman_high_res.png` file in the root directory.
 
 ### 4. Development
 
