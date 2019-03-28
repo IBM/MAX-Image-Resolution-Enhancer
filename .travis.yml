@@ -4,8 +4,8 @@ python:
 services:
   - docker
 install:
-  - docker build -t max-image-super-resolution-generator .
-  - docker run -it -d --rm -p 5000:5000 max-image-super-resolution-generator
+  - docker build -t max-image-resolution-enhancer .
+  - docker run -it -d --rm -p 5000:5000 max-image-resolution-enhancer
   - pip install pytest requests flake8 Pillow
 before_script:
   - sleep 30

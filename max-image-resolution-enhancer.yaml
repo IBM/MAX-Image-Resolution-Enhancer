@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: max-image-resolution-enhancer
+spec:
+  selector:
+    app: max-image-resolution-enhancer
+  ports:
+  - port: 5000
+  type: NodePort
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: max-image-resolution-enhancer
+  labels:
+    app: max-image-resolution-enhancer
+spec:
+  selector:
+    matchLabels:
+      app: max-image-resolution-enhancer
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: max-image-resolution-enhancer
+    spec:
+      containers:
+      - name: max-image-resolution-enhancer
+        image: codait/max-image-resolution-enhancer:latest
+        ports:
+        - containerPort: 5000

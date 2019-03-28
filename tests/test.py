@@ -15,7 +15,7 @@ def test_swagger():
 
     json = r.json()
     assert 'swagger' in json
-    assert json.get('info') and json.get('info').get('title') == 'MAX Image Super-Resolution Generator'
+    assert json.get('info') and json.get('info').get('title') == 'MAX Image Resolution Enhancer'
 
 
 def test_metadata():

@@ -1,14 +1,14 @@
-[![Build Status](https://travis-ci.com/IBM/MAX-Image-Super-Resolution-Generator.svg?branch=master)](https://travis-ci.com/IBM/MAX-Image-Super-Resolution-Generator) 
+[![Build Status](https://travis-ci.com/IBM/MAX-Image-Resolution-Enhancer.svg?branch=master)](https://travis-ci.com/IBM/MAX-Image-Resolution-Enhancer) 
 
-# IBM Developer Model Asset Exchange: Image Super-Resolution Generator
+# IBM Developer Model Asset Exchange: Image Resolution Enhancer
 
-This repository contains code to instantiate and deploy an image super-resolution generator. 
+This repository contains code to instantiate and deploy an image resolution enhancer. 
 This model is able to upscale a pixelated image by a factor of 4, while generating photo-realistic details.
 
 The GAN is based on [this GitHub repository](https://github.com/brade31919/SRGAN-tensorflow) and on [this research article](https://arxiv.org/pdf/1609.04802.pdf).
 
 The model was trained on 600,000 images of the [OpenImages V4](https://storage.googleapis.com/openimages/web/index.html) dataset, and the model files are hosted on
-[IBM Cloud Object Storage](http://max-assets.s3.us.cloud-object-storage.appdomain.cloud/max-image-super-resolution-generator/1.0/assets.tar.gz).
+[IBM Cloud Object Storage](http://max-assets.s3.us.cloud-object-storage.appdomain.cloud/max-image-resolution-enhancer/1.0/assets.tar.gz).
 The code in this repository deploys the model as a web service in a Docker container. This repository was developed
 as part of the [IBM Developer Model Asset Exchange](https://developer.ibm.com/exchanges/models/).
 
@@ -52,8 +52,8 @@ _NOTE: The SRGAN in the paper was trained on 350k ImageNet samples, whereas this
 
 | Component | License | Link  |
 | ------------- | --------  | -------- |
-| This repository | [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0) | [LICENSE](https://github.com/IBM/MAX-Image-Super-Resolution-Generator/blob/master/LICENSE) |
-| Model Weights | [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0) | [LICENSE](https://github.com/IBM/MAX-Image-Super-Resolution-Generator/blob/master/LICENSE) |
+| This repository | [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0) | [LICENSE](https://github.com/IBM/max-image-resolution-enhancer/blob/master/LICENSE) |
+| Model Weights | [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0) | [LICENSE](https://github.com/IBM/max-image-resolution-enhancer/blob/master/LICENSE) |
 | Model Code (3rd party) | [MIT](https://opensource.org/licenses/MIT) | [LICENSE](https://github.com/brade31919/SRGAN-tensorflow/blob/master/LICENSE.txt) |
 | Test assets | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) | [Asset README](assets/README.md) |
 |  | [CC0](https://creativecommons.org/publicdomain/zero/1.0/) | [Asset README](assets/README.md) |
@@ -74,7 +74,7 @@ _NOTE: The SRGAN in the paper was trained on 350k ImageNet samples, whereas this
 To run the docker image, which automatically starts the model serving API, run:
 
 ```
-$ docker run -it -p 5000:5000 codait/max-image-super-resolution-generator
+$ docker run -it -p 5000:5000 codait/max-image-resolution-enhancer
 ```
 
 This will pull a pre-built image from Docker Hub (or use an existing image if already cached locally) and run it.
@@ -87,7 +87,7 @@ You can also deploy the model on Kubernetes using the latest docker image on Doc
 On your Kubernetes cluster, run the following commands:
 
 ```
-$ kubectl apply -f https://github.com/IBM/MAX-Image-Super-Resolution-Generator/raw/master/max-image-super-resolution-generator.yaml
+$ kubectl apply -f https://github.com/IBM/max-image-resolution-enhancer/raw/master/max-image-resolution-enhancer.yaml
 ```
 
 The model will be available internally at port `5000`, but can also be accessed externally through the `NodePort`.
@@ -106,19 +106,19 @@ The model will be available internally at port `5000`, but can also be accessed 
 Clone this repository locally. In a terminal, run the following command:
 
 ```
-$ git clone https://github.com/IBM/MAX-Image-Super-Resolution-Generator.git
+$ git clone https://github.com/IBM/max-image-resolution-enhancer.git
 ```
 
 Change directory into the repository base folder:
 
 ```
-$ cd MAX-Image-Super-Resolution-Generator
+$ cd max-image-resolution-enhancer
 ```
 
 To build the docker image locally, run: 
 
 ```
-$ docker build -t max-image-super-resolution-generator .
+$ docker build -t max-image-resolution-enhancer .
 ```
 
 All required model assets will be downloaded during the build process. _Note_ that currently this docker image is CPU only (we will add support for GPU images later).
@@ -129,7 +129,7 @@ All required model assets will be downloaded during the build process. _Note_ th
 To run the docker image, which automatically starts the model serving API, run:
 
 ```
-$ docker run -it -p 5000:5000 max-image-super-resolution-generator
+$ docker run -it -p 5000:5000 max-image-resolution-enhancer
 ```
 
 ### 3. Use the Model

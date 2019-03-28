@@ -6,7 +6,7 @@ RESTPLUS_MASK_SWAGGER = False
 SWAGGER_UI_DOC_EXPANSION = 'none'
 
 # API metadata
-API_TITLE = 'MAX Image Super-Resolution Generator'
+API_TITLE = 'MAX Image Resolution Enhancer'
 API_DESC = 'Upscale low-resolution images by a factor of 4x. This model was trained on the OpenImagesV4 dataset.'
 API_VERSION = '0.1'
 
