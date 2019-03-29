@@ -27,10 +27,10 @@ def test_metadata():
     assert r.status_code == 200
 
     metadata = r.json()
-    assert metadata['id'] == 'srgan_tensorflow'
+    assert metadata['id'] == 'max-image-resolution-enhancer'
     assert metadata['name'] == 'Super-Resolution Generative Adversarial Network (SRGAN)'
     assert metadata['description'] == 'SRGAN trained on the OpenImagesV4 dataset.'
-    assert metadata['license'] == 'ApacheV2'
+    assert metadata['license'] == 'Apache V2'
 
 
 def call_model(file_path):

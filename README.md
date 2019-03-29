@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/IBM/MAX-Image-Resolution-Enhancer.svg?branch=master)](https://travis-ci.com/IBM/MAX-Image-Resolution-Enhancer) 
+[![Build Status](https://travis-ci.com/IBM/MAX-Image-Resolution-Enhancer.svg?branch=master)](https://travis-ci.com/IBM/MAX-Image-Resolution-Enhancer) [![API demo](https://img.shields.io/website/http/max-image-resolution-enhancer.max.us-south.containers.appdomain.cloud/swagger.json.svg?label=API%20demo&down_message=down&up_message=up)](http://max-image-resolution-enhancer.max.us-south.containers.appdomain.cloud/)
 
 # IBM Developer Model Asset Exchange: Image Resolution Enhancer
 
