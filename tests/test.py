@@ -65,23 +65,23 @@ def test_predict():
     '''Check the prediction output of 5 test images.'''
 
     # Test the output image of the woman
-    im = call_model(file_path='assets/test_examples/low_resolution/woman.png')
+    im = call_model(file_path='samples/test_examples/low_resolution/woman.png')
     assert im.size == (424, 636)
 
     # Test the output image of the astronaut
-    im = call_model(file_path='assets/test_examples/low_resolution/astronaut.png')
+    im = call_model(file_path='samples/test_examples/low_resolution/astronaut.png')
     assert im.size == (1276, 1380)
 
     # Test the output image of the food
-    im = call_model(file_path='assets/test_examples/low_resolution/food.png')
+    im = call_model(file_path='samples/test_examples/low_resolution/food.png')
     assert im.size == (512, 320)
 
     # Test the output image of the palm tree
-    im = call_model(file_path='assets/test_examples/low_resolution/palm_tree.png')
+    im = call_model(file_path='samples/test_examples/low_resolution/palm_tree.png')
     assert im.size == (948, 1412)
 
     # Test the output image of the elephant
-    im = call_model(file_path='assets/test_examples/low_resolution/elephant.png')
+    im = call_model(file_path='samples/test_examples/low_resolution/elephant.png')
     assert im.size == (868, 1392)
 
 

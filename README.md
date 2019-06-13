@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.com/IBM/MAX-Image-Resolution-Enhancer.svg?branch=master)](https://travis-ci.com/IBM/MAX-Image-Resolution-Enhancer) [![API demo](https://img.shields.io/website/http/max-image-resolution-enhancer.max.us-south.containers.appdomain.cloud/swagger.json.svg?label=API%20demo&down_message=down&up_message=up)](http://max-image-resolution-enhancer.max.us-south.containers.appdomain.cloud/)
 
+[<img src="docs/deploy-max-to-ibm-cloud-with-kubernetes-button.png" width="400px">](http://ibm.biz/max-to-ibm-cloud-tutorial)
+
 # IBM Developer Model Asset Exchange: Image Resolution Enhancer
 
 This repository contains code to instantiate and deploy an image resolution enhancer. 
@@ -10,7 +12,7 @@ The GAN is based on [this GitHub repository](https://github.com/brade31919/SRGAN
 The model was trained on 600,000 images of the [OpenImages V4](https://storage.googleapis.com/openimages/web/index.html) dataset, and the model files are hosted on
 [IBM Cloud Object Storage](http://max-assets.s3.us.cloud-object-storage.appdomain.cloud/max-image-resolution-enhancer/1.0/assets.tar.gz).
 The code in this repository deploys the model as a web service in a Docker container. This repository was developed
-as part of the [IBM Developer Model Asset Exchange](https://developer.ibm.com/exchanges/models/).
+as part of the [IBM Developer Model Asset Exchange](https://developer.ibm.com/exchanges/models/) and the public API is powered by [IBM Cloud](https://ibm.biz/Bdz2XM).
 
 ## Model Metadata
 | Domain | Application | Industry  | Framework | Training Data | Input Data Format |
@@ -55,8 +57,8 @@ _NOTE: The SRGAN in the paper was trained on 350k ImageNet samples, whereas this
 | This repository | [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0) | [LICENSE](https://github.com/IBM/max-image-resolution-enhancer/blob/master/LICENSE) |
 | Model Weights | [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0) | [LICENSE](https://github.com/IBM/max-image-resolution-enhancer/blob/master/LICENSE) |
 | Model Code (3rd party) | [MIT](https://opensource.org/licenses/MIT) | [LICENSE](https://github.com/brade31919/SRGAN-tensorflow/blob/master/LICENSE.txt) |
-| Test assets | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) | [Asset README](assets/README.md) |
-|  | [CC0](https://creativecommons.org/publicdomain/zero/1.0/) | [Asset README](assets/README.md) |
+| Test samples | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) | [Asset README](samples/README.md) |
+|  | [CC0](https://creativecommons.org/publicdomain/zero/1.0/) | [Asset README](samples/README.md) |
 
 ## Pre-requisites:
 
@@ -91,6 +93,8 @@ $ kubectl apply -f https://github.com/IBM/max-image-resolution-enhancer/raw/mast
 ```
 
 The model will be available internally at port `5000`, but can also be accessed externally through the `NodePort`.
+
+A more elaborate tutorial on how to deploy this MAX model to production on [IBM Cloud](https://ibm.biz/Bdz2XM) can be found [here](http://ibm.biz/max-to-ibm-cloud-tutorial).
 
 ## Run Locally
 
@@ -136,7 +140,7 @@ $ docker run -it -p 5000:5000 max-image-resolution-enhancer
 
 The API server automatically generates an interactive Swagger documentation page. Go to `http://localhost:5000` to load it. From there you can explore the API and also create test requests.
 
-Use the `model/predict` endpoint to load a test image (you can use one of the test images from the `assets/test_examples/low_resolution` folder) in order to get a high resolution output image returned.
+Use the `model/predict` endpoint to load a test image (you can use one of the test images from the `samples/test_examples/low_resolution` folder) in order to get a high resolution output image returned.
 
 The ideal input image is a PNG file with a resolution between 100x100 and 500x500, preferably without any post-capture processing and flashy colors. The model is able to generate details from a pixelated image (low DPI), but is not able to correct a 'blurred' image.
 
@@ -148,7 +152,7 @@ _Left: input image (106×159). Right: output image (424×636)_
 You can also test it on the command line, for example:
 
 ```
-$ curl -F "image=@assets/test_examples/low_resolution/woman.png" -XPOST http://localhost:5000/model/predict > woman_high_res.png
+$ curl -F "image=@samples/test_examples/low_resolution/woman.png" -XPOST http://localhost:5000/model/predict > woman_high_res.png
 ```
 
 The above command will send the low resolution `woman.png` file to the model, and save the high resolution output image to the `woman_high_res.png` file in the root directory.
