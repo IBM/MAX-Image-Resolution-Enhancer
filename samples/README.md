@@ -1,6 +1,6 @@
 # Sample Details
 
-## Test Examples (samples/test_examples/)
+## Test Examples (`samples/test_examples/`)
 
 This directory contains to subdirectories:
 * low_resolution
@@ -8,7 +8,7 @@ This directory contains to subdirectories:
 
 The low resolution images can be used as input for the model, and the resulting high resolution images can be compared with the 'original' images to measure performance.
 
-The source of the images is the following:
+The sources of the images are the following:
 
 **[OpenImages V4](https://storage.googleapis.com/openimages/web/index.html)**
 
