@@ -8,7 +8,7 @@ This model is able to upscale a pixelated image by a factor of 4, while generati
 The GAN is based on [this GitHub repository](https://github.com/brade31919/SRGAN-tensorflow) and on [this research article](https://arxiv.org/pdf/1609.04802.pdf).
 
 The model was trained on 600,000 images of the [OpenImages V4](https://storage.googleapis.com/openimages/web/index.html) dataset, and the model files are hosted on
-[IBM Cloud Object Storage](http://max-assets.s3.us.cloud-object-storage.appdomain.cloud/max-image-resolution-enhancer/1.0/assets.tar.gz).
+[IBM Cloud Object Storage](http://s3.us-south.cloud-object-storage.appdomain.cloud/max-assets-prod/max-image-resolution-enhancer/1.0.0/assets.tar.gz).
 The code in this repository deploys the model as a web service in a Docker container. This repository was developed
 as part of the [IBM Developer Model Asset Exchange](https://developer.ibm.com/exchanges/models/).
 
