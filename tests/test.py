@@ -90,9 +90,9 @@ def test_predict_other_formats():
     '''Check the prediction output of JPEG and TIFF converted images.'''
 
     with Image.open('samples/test_examples/low_resolution/woman.png') as img:
-        for ext in ('jpeg', 'tiff'):
+        for ext in ('jpeg', 'tiff', 'gif'):
             with NamedTemporaryFile(suffix='.' + ext) as tmp_img:
-                img.save(tmp_img)
+                img.save(tmp_img, ext)
                 im = call_model(file_path=tmp_img.name)
                 assert im.size == (424, 636)
 
