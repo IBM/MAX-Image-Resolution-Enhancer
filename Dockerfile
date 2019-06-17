@@ -16,7 +16,7 @@
 
 FROM codait/max-base:v1.1.3
 
-ARG model_bucket=http://s3.us-south.cloud-object-storage.appdomain.cloud/max-assets-prod/max-image-resolution-enhancer/1.0.0
+ARG model_bucket=https://s3.us-south.cloud-object-storage.appdomain.cloud/max-assets-prod/max-image-resolution-enhancer/1.0.0
 ARG model_file=assets.tar.gz
 
 WORKDIR /workspace
