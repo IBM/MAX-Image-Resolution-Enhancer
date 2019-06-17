@@ -1,8 +1,8 @@
 # Sample Details
 
-## Test Examples (`samples/test_examples/`)
+## Test Examples
 
-This directory contains to subdirectories:
+The `samples/test_examples/` folder contains two subfolders:
 * low_resolution
 * original
 
