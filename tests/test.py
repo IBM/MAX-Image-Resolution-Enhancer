@@ -85,5 +85,23 @@ def test_predict():
     assert im.size == (868, 1392)
 
 
+def test_predict_other_formats():
+    '''Check the prediction output of JPEG and TIFF converted images.'''
+
+    # save img as jpeg
+    Image.open('samples/test_examples/low_resolution/woman.png').save(
+        'samples/test_examples/low_resolution/woman.jpeg', 'JPEG')
+
+    # save img as tiff
+    Image.open('samples/test_examples/low_resolution/woman.png').save(
+        'samples/test_examples/low_resolution/woman.tiff', 'TIFF')
+
+    im = call_model(file_path='samples/test_examples/low_resolution/woman.jpeg')
+    assert im.size == (424, 636)
+
+    im = call_model(file_path='samples/test_examples/low_resolution/woman.tiff')
+    assert im.size == (424, 636)
+
+
 if __name__ == '__main__':
     pytest.main([__file__])
