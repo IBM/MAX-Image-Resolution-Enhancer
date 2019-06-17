@@ -17,6 +17,7 @@
 import pytest
 import requests
 import io
+from tempfile import NamedTemporaryFile
 from PIL import Image
 
 
@@ -88,19 +89,12 @@ def test_predict():
 def test_predict_other_formats():
     '''Check the prediction output of JPEG and TIFF converted images.'''
 
-    # save img as jpeg
-    Image.open('samples/test_examples/low_resolution/woman.png').save(
-        'samples/test_examples/low_resolution/woman.jpeg', 'JPEG')
-
-    # save img as tiff
-    Image.open('samples/test_examples/low_resolution/woman.png').save(
-        'samples/test_examples/low_resolution/woman.tiff', 'TIFF')
-
-    im = call_model(file_path='samples/test_examples/low_resolution/woman.jpeg')
-    assert im.size == (424, 636)
-
-    im = call_model(file_path='samples/test_examples/low_resolution/woman.tiff')
-    assert im.size == (424, 636)
+    with Image.open('samples/test_examples/low_resolution/woman.png') as img:
+        for ext in ('jpeg', 'tiff'):
+            with NamedTemporaryFile(suffix='.' + ext) as tmp_img:
+                img.save(tmp_img)
+                im = call_model(file_path=tmp_img.name)
+                assert im.size == (424, 636)
 
 
 if __name__ == '__main__':
