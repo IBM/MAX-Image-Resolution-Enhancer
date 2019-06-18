@@ -24,7 +24,7 @@ SWAGGER_UI_DOC_EXPANSION = 'none'
 # API metadata
 API_TITLE = 'MAX Image Resolution Enhancer'
 API_DESC = 'Upscale low-resolution images by a factor of 4. This model was trained on the OpenImagesV4 dataset.'
-API_VERSION = '1.2.0'
+API_VERSION = '1.1.0'
 
 # default model
 MODEL_NAME = 'SRGAN'
