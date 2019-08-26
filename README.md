@@ -145,17 +145,17 @@ Use the `model/predict` endpoint to load a test image (you can use one of the te
 The ideal input image is a PNG file with a resolution between 100x100 and 500x500, preferably without any post-capture processing and flashy colors. The model is able to generate details from a pixelated image (low DPI), but is not able to correct a 'blurred' image.
 
 ![input](docs/example.png)
-_Left: input image (106×159). Right: output image (424×636)_
+_Left: input image (128×80). Right: output image (512×320)_
 
 ![Swagger UI screenshot](docs/swagger-screenshot.png)
 
 You can also test it on the command line, for example:
 
 ```
-$ curl -F "image=@samples/test_examples/low_resolution/woman.png" -XPOST http://localhost:5000/model/predict > woman_high_res.png
+$ curl -F "image=@samples/test_examples/low_resolution/food.png" -XPOST http://localhost:5000/model/predict > food_high_res.png
 ```
 
-The above command will send the low resolution `woman.png` file to the model, and save the high resolution output image to the `woman_high_res.png` file in the root directory.
+The above command will send the low resolution `food.png` file to the model, and save the high resolution output image to the `food_high_res.png` file in the root directory.
 
 ### 4. Development
 
