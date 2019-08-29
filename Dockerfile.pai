@@ -1,0 +1,21 @@
+FROM codait/max-base:powerai-latest
+
+ARG model_bucket=https://s3.us-south.cloud-object-storage.appdomain.cloud/max-assets-prod/max-image-resolution-enhancer/1.0.0
+ARG model_file=assets.tar.gz
+
+WORKDIR /workspace
+
+RUN wget -nv --show-progress --progress=bar:force:noscroll ${model_bucket}/${model_file} --output-document=assets/${model_file} && \
+  tar -x -C assets/ -f assets/${model_file} -v && rm assets/${model_file}
+
+COPY requirements-pai.txt /workspace
+RUN ["/bin/bash", "-c", "cd /opt/anaconda3/bin && source activate base && while read requirement; do conda install --yes $requirement; done < /workspace/requirements-pai.txt"]
+
+RUN ["/bin/bash", "-c", "cd /opt/anaconda3/bin && source activate base && IBM_POWERAI_LICENSE_ACCEPT=yes ./accept-powerai-license.sh" ]
+
+COPY . /workspace
+RUN md5sum -c md5sums.txt # check file integrity
+
+EXPOSE 5000
+
+CMD ["/bin/bash", "-c", "source /opt/anaconda3/bin/activate base && python3 app.py" ]
