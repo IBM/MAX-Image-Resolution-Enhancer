@@ -19,12 +19,46 @@ python:
   - 3.6
 services:
   - docker
+before_install:
+  - if [[ "$TRAVIS_BRANCH" == "master" ]]; then
+      VERSION=latest;
+    else
+      VERSION=$TRAVIS_BRANCH;
+    fi
 install:
-  - docker build -t max-image-resolution-enhancer .
-  - docker run -it -d --rm -p 5000:5000 max-image-resolution-enhancer
+  - docker build -f "$DOCKERFILE" -t codait/max-image-resolution-enhancer:"$IMAGE"-"$ARCH"-"$VERSION" .
+  - docker run -it --rm -d -p 5000:5000 codait/max-image-resolution-enhancer:"$IMAGE"-"$ARCH"-"$VERSION"
   - pip install pytest requests flake8 Pillow
 before_script:
+  - flake8 . --max-line-length=127
   - sleep 30
 script:
-  - flake8 . --max-line-length=127
   - pytest tests/test.py
+after_success:
+  - if [[ "$IMAGE" != "test" && "$TRAVIS_PULL_REQUEST" == "false" ]] && [[ "$TRAVIS_BRANCH" == "master" || "$TRAVIS_BRANCH" == "$TRAVIS_TAG" ]]; then
+      echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin;
+      docker push codait/max-image-resolution-enhancer:"$IMAGE"-"$ARCH"-"$VERSION";
+    fi
+
+matrix:
+  include:
+  - os: linux
+    env: DOCKERFILE=Dockerfile IMAGE=test ARCH=x86_64
+  - os: linux
+    env: DOCKERFILE=Dockerfile.pai IMAGE=powerai ARCH=x86_64
+  - os: linux-ppc64le
+    env: DOCKERFILE=Dockerfile.pai IMAGE=powerai ARCH=ppc64le
+  - if: type = push AND (branch = master OR tag IS present)
+    stage: "Docker Manifest"
+    addons:
+      apt:
+        packages:
+          - docker-ce
+    install:
+    before_script:
+    script:
+      - export DOCKER_CLI_EXPERIMENTAL=enabled
+      - docker pull codait/max-image-resolution-enhancer:powerai-ppc64le-"$VERSION";
+      - docker pull codait/max-image-resolution-enhancer:powerai-x86_64-"$VERSION";
+      - docker manifest create codait/max-image-resolution-enhancer:powerai-"$VERSION" codait/max-image-resolution-enhancer:powerai-ppc64le-"$VERSION" codait/max-image-resolution-enhancer:powerai-x86_64-"$VERSION";
+      - docker manifest push codait/max-image-resolution-enhancer:powerai-"$VERSION"
