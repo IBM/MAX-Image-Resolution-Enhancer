@@ -65,11 +65,12 @@ _NOTE: The SRGAN in the paper was trained on 350k ImageNet samples, whereas this
 * `docker`: The [Docker](https://www.docker.com/) command-line interface. Follow the [installation instructions](https://docs.docker.com/install/) for your system.
 * The minimum recommended resources for this model is 8 GB Memory (see Troubleshooting) and 4 CPUs.
 
-# Steps
+# Deployment options
 
-1. [Deploy from Docker Hub](#deploy-from-docker-hub)
-2. [Deploy on Kubernetes](#deploy-on-kubernetes)
-3. [Run Locally](#run-locally)
+* [Deploy from Docker Hub](#deploy-from-docker-hub)
+* [Deploy on Red Hat OpenShift](#deploy-on-red-hat-openshift)
+* [Deploy on Kubernetes](#deploy-on-kubernetes)
+* [Run Locally](#run-locally)
 
 ## Deploy from Docker Hub
 
@@ -81,6 +82,10 @@ $ docker run -it -p 5000:5000 codait/max-image-resolution-enhancer
 
 This will pull a pre-built image from Docker Hub (or use an existing image if already cached locally) and run it.
 If you'd rather checkout and build the model locally you can follow the [run locally](#run-locally) steps below.
+
+## Deploy on Red Hat OpenShift
+
+You can deploy the model-serving microservice on Red Hat OpenShift by following the instructions for the OpenShift web console or the OpenShift Container Platform CLI [in this tutorial](https://developer.ibm.com/tutorials/deploy-a-model-asset-exchange-microservice-on-red-hat-openshift/), specifying `codait/max-image-resolution-enhancer` as the image name.
 
 ## Deploy on Kubernetes
 
