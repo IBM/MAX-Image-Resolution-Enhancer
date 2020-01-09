@@ -16,7 +16,7 @@
 
 FROM codait/max-base:v1.1.3
 
-ARG model_bucket=https://s3.us-south.cloud-object-storage.appdomain.cloud/max-assets-prod/max-image-resolution-enhancer/1.0.0
+ARG model_bucket=https://max.cdn.appdomain.cloud/max-image-resolution-enhancer/1.0.0
 ARG model_file=assets.tar.gz
 
 WORKDIR /workspace
@@ -28,7 +28,9 @@ COPY requirements.txt /workspace
 RUN pip install -r requirements.txt
 
 COPY . /workspace
-RUN md5sum -c md5sums.txt # check file integrity
+
+# check file integrity
+RUN md5sum -c md5sums.txt
 
 EXPOSE 5000
 

@@ -4,3 +4,4 @@ tensorflow==1.12.2 # CPU version
 scipy==1.0.0
 scikit-image==0.14.2
 imageio==2.5.0
+numpy==1.17.4
