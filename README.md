@@ -191,3 +191,7 @@ The network attempts to recognize elements in the low-resolution image from whic
 > * An image taken under natural light, without filters, and with few bright or flashy colors. The neural network was not trained on heavily edited images.
 > * An image that has sufficiently high resolution to not confuse the network with multiple possibilities (e.g. a sole pixel in a very low-resolution image could represent an entire car, person, sandwich,..)
 > * The model is able to generate details from a pixelated image (low DPI), but is not able to correct a 'blurred' image.
+
+## Resources and Contributions
+   
+If you are interested in contributing to the Model Asset Exchange project or have any queries, please follow the instructions [here](https://github.com/CODAIT/max-central-repo).
