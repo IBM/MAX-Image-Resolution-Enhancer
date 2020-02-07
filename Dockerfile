@@ -30,7 +30,7 @@ RUN pip install -r requirements.txt
 COPY . /workspace
 
 # check file integrity
-RUN md5sum -c md5sums.txt
+RUN sha512sum -c sha512sums.txt
 
 EXPOSE 5000
 
