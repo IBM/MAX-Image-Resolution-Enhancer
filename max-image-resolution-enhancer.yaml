@@ -9,7 +9,7 @@ spec:
   - port: 5000
   type: NodePort
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: max-image-resolution-enhancer
