@@ -75,7 +75,7 @@ class SRGAN_controller:
             raise TypeError("Invalid type: %r" % INPUT_IMAGE.dtype)
 
         if INPUT_IMAGE.shape[0] != 1 or INPUT_IMAGE.shape[-1] != 3:
-            raise ValueError("Invalid IMAGE_INPUT.shape")
+            raise ValueError(f"Invalid INPUT_IMAGE.shape: {INPUT_IMAGE.shape}")
 
         # Send the image through the network
         results = self.sess.run(self.save_fetch, feed_dict={self.inputs_raw: INPUT_IMAGE})
