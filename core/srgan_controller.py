@@ -71,8 +71,11 @@ class SRGAN_controller:
         '''Upscale an image with factor 4x.'''
 
         # Verify that the INPUT_IMAGE is indeed a np.array with the correct dtype
-        assert INPUT_IMAGE.dtype == np.float32
-        assert INPUT_IMAGE.shape[0] == 1 and INPUT_IMAGE.shape[-1] == 3
+        if INPUT_IMAGE.dtype != np.float32:
+            raise TypeError("Invalid type: %r" % INPUT_IMAGE.dtype)
+
+        if INPUT_IMAGE.shape[0] != 1 or INPUT_IMAGE.shape[-1] != 3:
+            raise ValueError(f"Invalid INPUT_IMAGE.shape: {INPUT_IMAGE.shape}")
 
         # Send the image through the network
         results = self.sess.run(self.save_fetch, feed_dict={self.inputs_raw: INPUT_IMAGE})

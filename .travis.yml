@@ -22,9 +22,10 @@ services:
 install:
   - docker build -t max-image-resolution-enhancer .
   - docker run -it -d --rm -p 5000:5000 max-image-resolution-enhancer
-  - pip install pytest requests flake8 Pillow
+  - pip install -r requirements-test.txt
 before_script:
+  - flake8 . --max-line-length=127
+  - bandit -r .
   - sleep 30
 script:
-  - flake8 . --max-line-length=127
   - pytest tests/test.py
