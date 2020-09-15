@@ -27,6 +27,6 @@ spec:
     spec:
       containers:
       - name: max-image-resolution-enhancer
-        image: codait/max-image-resolution-enhancer:latest
+        image: quay.io/codait/max-image-resolution-enhancer:latest
         ports:
         - containerPort: 5000
