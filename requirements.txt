@@ -1,5 +1,5 @@
 Pillow==6.2.0
-tensorflow==1.15.2 # CPU version
+tensorflow==1.15.4 # CPU version
 #tensorflow-gpu==1.15.2 # GPU version
 scipy==1.4.1
 scikit-image==0.14.2
