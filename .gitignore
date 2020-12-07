@@ -1,4 +1,3 @@
-.test_pr_only
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
