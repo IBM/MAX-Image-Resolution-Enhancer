@@ -1,5 +1,5 @@
-pytest
-requests
-flake8
-Pillow
-bandit
+pytest==6.1.2
+requests==2.25.0
+flake8==3.8.4
+Pillow==8.0.1
+bandit==1.6.2
