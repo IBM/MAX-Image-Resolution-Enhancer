@@ -3,7 +3,7 @@ from __future__ import division
 from __future__ import print_function
 
 import tensorflow as tf
-import tensorflow.contrib.slim as slim
+import tf_slim as slim
 from core.SRGAN.ops import preprocessLR, preprocess, random_flip, conv2, batchnorm, prelu_tf, pixelShuffler, lrelu, \
     denselayer, vgg_19
 import collections
@@ -38,7 +38,7 @@ def data_loader(FLAGS):
         image_list_LR_tensor = tf.convert_to_tensor(image_list_LR, dtype=tf.string)
         image_list_HR_tensor = tf.convert_to_tensor(image_list_HR, dtype=tf.string)
 
-        with tf.variable_scope('load_image'):
+        with tf.compat.v1.variable_scope('load_image'):
             # define the image list queue
             # image_list_LR_queue = tf.train.string_input_producer(
             # image_list_LR, shuffle=False, capacity=FLAGS.name_queue_capacity)
@@ -98,7 +98,7 @@ def data_loader(FLAGS):
                     inputs = tf.identity(inputs)
                     targets = tf.identity(targets)
 
-            with tf.variable_scope('random_flip'):
+            with tf.compat.v1.variable_scope('random_flip'):
                 # Check for random flip:
                 if (FLAGS.flip is True) and (FLAGS.mode == 'train'):
                     print('[Config] Use random flip')
@@ -228,7 +228,7 @@ def inference_data_loader(input_dir_LR="None"):
 def generator(gen_inputs, gen_output_channels, is_training, num_resblock, reuse=False):
     # The Bx residual blocks
     def residual_block(inputs, output_channel, stride, scope):
-        with tf.variable_scope(scope):
+        with tf.compat.v1.variable_scope(scope):
             net = conv2(inputs, 3, output_channel, stride, use_bias=False, scope='conv_1')
             net = batchnorm(net, is_training)
             net = prelu_tf(net)
@@ -238,9 +238,9 @@ def generator(gen_inputs, gen_output_channels, is_training, num_resblock, reuse=
 
         return net
 
-    with tf.variable_scope('generator_unit', reuse=reuse):
+    with tf.compat.v1.variable_scope('generator_unit', reuse=reuse):
         # The input layer
-        with tf.variable_scope('input_stage'):
+        with tf.compat.v1.variable_scope('input_stage'):
             net = conv2(gen_inputs, 9, 64, 1, scope='conv')
             net = prelu_tf(net)
 
@@ -251,23 +251,23 @@ def generator(gen_inputs, gen_output_channels, is_training, num_resblock, reuse=
             name_scope = 'resblock_%d' % (i)
             net = residual_block(net, 64, 1, name_scope)
 
-        with tf.variable_scope('resblock_output'):
+        with tf.compat.v1.variable_scope('resblock_output'):
             net = conv2(net, 3, 64, 1, use_bias=False, scope='conv')
             net = batchnorm(net, is_training)
 
         net = net + stage1_output
 
-        with tf.variable_scope('subpixelconv_stage1'):
+        with tf.compat.v1.variable_scope('subpixelconv_stage1'):
             net = conv2(net, 3, 256, 1, scope='conv')
             net = pixelShuffler(net, scale=2)
             net = prelu_tf(net)
 
-        with tf.variable_scope('subpixelconv_stage2'):
+        with tf.compat.v1.variable_scope('subpixelconv_stage2'):
             net = conv2(net, 3, 256, 1, scope='conv')
             net = pixelShuffler(net, scale=2)
             net = prelu_tf(net)
 
-        with tf.variable_scope('output_stage'):
+        with tf.compat.v1.variable_scope('output_stage'):
             net = conv2(net, 9, gen_output_channels, 1, scope='conv')
 
     return net
@@ -280,7 +280,7 @@ def discriminator(dis_inputs, FLAGS=None):
 
     # Define the discriminator block
     def discriminator_block(inputs, output_channel, kernel_size, stride, scope):
-        with tf.variable_scope(scope):
+        with tf.compat.v1.variable_scope(scope):
             net = conv2(inputs, kernel_size, output_channel, stride, use_bias=False, scope='conv1')
             net = batchnorm(net, FLAGS.is_training)
             net = lrelu(net, 0.2)
@@ -288,9 +288,9 @@ def discriminator(dis_inputs, FLAGS=None):
         return net
 
     with tf.device('/gpu:0'):
-        with tf.variable_scope('discriminator_unit'):
+        with tf.compat.v1.variable_scope('discriminator_unit'):
             # The input layer
-            with tf.variable_scope('input_stage'):
+            with tf.compat.v1.variable_scope('input_stage'):
                 net = conv2(dis_inputs, 3, 64, 1, scope='conv')
                 net = lrelu(net, 0.2)
 
@@ -317,13 +317,13 @@ def discriminator(dis_inputs, FLAGS=None):
             net = discriminator_block(net, 512, 3, 2, 'disblock_7')
 
             # The dense layer 1
-            with tf.variable_scope('dense_layer_1'):
+            with tf.compat.v1.variable_scope('dense_layer_1'):
                 net = slim.flatten(net)
                 net = denselayer(net, 1024)
                 net = lrelu(net, 0.2)
 
             # The dense layer 2
-            with tf.variable_scope('dense_layer_2'):
+            with tf.compat.v1.variable_scope('dense_layer_2'):
                 net = denselayer(net, 1)
                 net = tf.nn.sigmoid(net)
 
@@ -352,19 +352,19 @@ def SRGAN(inputs, targets, FLAGS):
         learning_rate')
 
     # Build the generator part
-    with tf.variable_scope('generator'):
+    with tf.compat.v1.variable_scope('generator'):
         output_channel = targets.get_shape().as_list()[-1]
         gen_output = generator(inputs, output_channel, reuse=False, FLAGS=FLAGS)
         gen_output.set_shape([FLAGS.batch_size, FLAGS.crop_size * 4, FLAGS.crop_size * 4, 3])
 
     # Build the fake discriminator
     with tf.name_scope('fake_discriminator'):
-        with tf.variable_scope('discriminator', reuse=False):
+        with tf.compat.v1.variable_scope('discriminator', reuse=False):
             discrim_fake_output = discriminator(gen_output, FLAGS=FLAGS)
 
     # Build the real discriminator
     with tf.name_scope('real_discriminator'):
-        with tf.variable_scope('discriminator', reuse=True):
+        with tf.compat.v1.variable_scope('discriminator', reuse=True):
             discrim_real_output = discriminator(targets, FLAGS=FLAGS)
 
     # Use the VGG54 feature
@@ -390,9 +390,9 @@ def SRGAN(inputs, targets, FLAGS):
         raise NotImplementedError('Unknown perceptual type!!')
 
     # Calculating the generator loss
-    with tf.variable_scope('generator_loss'):
+    with tf.compat.v1.variable_scope('generator_loss'):
         # Content loss
-        with tf.variable_scope('content_loss'):
+        with tf.compat.v1.variable_scope('content_loss'):
             # Compute the euclidean distance between the two features
             diff = extracted_feature_gen - extracted_feature_target
             if FLAGS.perceptual_mode == 'MSE':
@@ -400,7 +400,7 @@ def SRGAN(inputs, targets, FLAGS):
             else:
                 content_loss = FLAGS.vgg_scaling * tf.reduce_mean(tf.reduce_sum(tf.square(diff), axis=[3]))
 
-        with tf.variable_scope('adversarial_loss'):
+        with tf.compat.v1.variable_scope('adversarial_loss'):
             adversarial_loss = tf.reduce_mean(-tf.log(discrim_fake_output + FLAGS.EPS))
 
         gen_loss = content_loss + (FLAGS.ratio) * adversarial_loss
@@ -408,29 +408,29 @@ def SRGAN(inputs, targets, FLAGS):
         print(content_loss.get_shape())
 
     # Calculating the discriminator loss
-    with tf.variable_scope('discriminator_loss'):
+    with tf.compat.v1.variable_scope('discriminator_loss'):
         discrim_fake_loss = tf.log(1 - discrim_fake_output + FLAGS.EPS)
         discrim_real_loss = tf.log(discrim_real_output + FLAGS.EPS)
 
         discrim_loss = tf.reduce_mean(-(discrim_fake_loss + discrim_real_loss))
 
     # Define the learning rate and global step
-    with tf.variable_scope('get_learning_rate_and_global_step'):
-        global_step = tf.contrib.framework.get_or_create_global_step()
+    with tf.compat.v1.variable_scope('get_learning_rate_and_global_step'):
+        global_step = tf.compat.v1.train.get_or_create_global_step()
         learning_rate = tf.train.exponential_decay(FLAGS.learning_rate, global_step, FLAGS.decay_step, FLAGS.decay_rate,
                                                    staircase=FLAGS.stair)
         incr_global_step = tf.assign(global_step, global_step + 1)
 
-    with tf.variable_scope('dicriminator_train'):
-        discrim_tvars = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, scope='discriminator')
+    with tf.compat.v1.variable_scope('dicriminator_train'):
+        discrim_tvars = tf.compat.v1.get_collection(tf.compat.v1.GraphKeys.TRAINABLE_VARIABLES, scope='discriminator')
         discrim_optimizer = tf.train.AdamOptimizer(learning_rate, beta1=FLAGS.beta)
         discrim_grads_and_vars = discrim_optimizer.compute_gradients(discrim_loss, discrim_tvars)
         discrim_train = discrim_optimizer.apply_gradients(discrim_grads_and_vars)
 
-    with tf.variable_scope('generator_train'):
+    with tf.compat.v1.variable_scope('generator_train'):
         # Need to wait discriminator to perform train step
-        with tf.control_dependencies([discrim_train] + tf.get_collection(tf.GraphKeys.UPDATE_OPS)):
-            gen_tvars = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, scope='generator')
+        with tf.control_dependencies([discrim_train] + tf.compat.v1.get_collection(tf.compat.v1.GraphKeys.UPDATE_OPS)):
+            gen_tvars = tf.compat.v1.get_collection(tf.compat.v1.GraphKeys.TRAINABLE_VARIABLES, scope='generator')
             gen_optimizer = tf.train.AdamOptimizer(learning_rate, beta1=FLAGS.beta)
             gen_grads_and_vars = gen_optimizer.compute_gradients(gen_loss, gen_tvars)
             gen_train = gen_optimizer.apply_gradients(gen_grads_and_vars)
@@ -460,7 +460,7 @@ def SRResnet(inputs, targets, FLAGS):
             learning_rate')
 
     # Build the generator part
-    with tf.variable_scope('generator'):
+    with tf.compat.v1.variable_scope('generator'):
         output_channel = targets.get_shape().as_list()[-1]
         gen_output = generator(inputs, output_channel, reuse=False, FLAGS=FLAGS)
         gen_output.set_shape([FLAGS.batch_size, FLAGS.crop_size * 4, FLAGS.crop_size * 4, 3])
@@ -486,9 +486,9 @@ def SRResnet(inputs, targets, FLAGS):
         raise NotImplementedError('Unknown perceptual type')
 
     # Calculating the generator loss
-    with tf.variable_scope('generator_loss'):
+    with tf.compat.v1.variable_scope('generator_loss'):
         # Content loss
-        with tf.variable_scope('content_loss'):
+        with tf.compat.v1.variable_scope('content_loss'):
             # Compute the euclidean distance between the two features
             # check=tf.equal(extracted_feature_gen, extracted_feature_target)
             diff = extracted_feature_gen - extracted_feature_target
@@ -500,16 +500,16 @@ def SRResnet(inputs, targets, FLAGS):
         gen_loss = content_loss
 
     # Define the learning rate and global step
-    with tf.variable_scope('get_learning_rate_and_global_step'):
-        global_step = tf.contrib.framework.get_or_create_global_step()
+    with tf.compat.v1.variable_scope('get_learning_rate_and_global_step'):
+        global_step = tf.compat.v1.train.get_or_create_global_step()
         learning_rate = tf.train.exponential_decay(FLAGS.learning_rate, global_step, FLAGS.decay_step, FLAGS.decay_rate,
                                                    staircase=FLAGS.stair)
         incr_global_step = tf.assign(global_step, global_step + 1)
 
-    with tf.variable_scope('generator_train'):
+    with tf.compat.v1.variable_scope('generator_train'):
         # Need to wait discriminator to perform train step
-        with tf.control_dependencies(tf.get_collection(tf.GraphKeys.UPDATE_OPS)):
-            gen_tvars = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, scope='generator')
+        with tf.control_dependencies(tf.compat.v1.get_collection(tf.compat.v1.GraphKeys.UPDATE_OPS)):
+            gen_tvars = tf.compat.v1.get_collection(tf.compat.v1.GraphKeys.TRAINABLE_VARIABLES, scope='generator')
             gen_optimizer = tf.train.AdamOptimizer(learning_rate, beta1=FLAGS.beta)
             gen_grads_and_vars = gen_optimizer.compute_gradients(gen_loss, gen_tvars)
             gen_train = gen_optimizer.apply_gradients(gen_grads_and_vars)
