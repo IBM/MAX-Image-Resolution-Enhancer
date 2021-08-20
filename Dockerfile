@@ -1,5 +1,5 @@
 #
-# Copyright 2018-2019 IBM Corp. All Rights Reserved.
+# Copyright 2018-2021 IBM Corp. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-FROM quay.io/codait/max-base:v1.4.0
+FROM quay.io/codait/max-base:v1.5.1
 
 ARG model_bucket=https://max-cdn.cdn.appdomain.cloud/max-image-resolution-enhancer/1.0.0
 ARG model_file=assets.tar.gz

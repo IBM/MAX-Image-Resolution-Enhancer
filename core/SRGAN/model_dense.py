@@ -39,7 +39,7 @@ def denseBlock(block_inputs, num_layers, bottleneck_scale, growth_rate, FLAGS):
     # Build each layer consecutively
     net = block_inputs
     for i in range(num_layers):
-        with tf.variable_scope('dense_conv_layer%d' % (i + 1)):
+        with tf.compat.v1.variable_scope('dense_conv_layer%d' % (i + 1)):
             net = denseConvlayer(net, bottleneck_scale, growth_rate, FLAGS.is_training)
 
     return net
@@ -52,9 +52,9 @@ def generatorDense(gen_inputs, gen_output_channels, reuse=False, FLAGS=None):
         raise ValueError('No FLAGS is provided for generator')
 
     # The main netowrk
-    with tf.variable_scope('generator_unit', reuse=reuse):
+    with tf.compat.v1.variable_scope('generator_unit', reuse=reuse):
         # The input stage
-        with tf.variable_scope('input_stage'):
+        with tf.compat.v1.variable_scope('input_stage'):
             net = conv2(gen_inputs, 9, 64, 1, scope='conv')
             net = prelu_tf(net)
 
@@ -64,23 +64,23 @@ def generatorDense(gen_inputs, gen_output_channels, reuse=False, FLAGS=None):
         bottleneck_scale = 4
         growth_rate = 12
         transition_output_channel = 128
-        with tf.variable_scope('denseBlock_1'):
+        with tf.compat.v1.variable_scope('denseBlock_1'):
             net = denseBlock(net, layer_per_block, bottleneck_scale, growth_rate, FLAGS)
 
-        with tf.variable_scope('transition_layer_1'):
+        with tf.compat.v1.variable_scope('transition_layer_1'):
             net = transitionLayer(net, transition_output_channel, FLAGS.is_training)
 
-        with tf.variable_scope('subpixelconv_stage1'):
+        with tf.compat.v1.variable_scope('subpixelconv_stage1'):
             net = conv2(net, 3, 256, 1, scope='conv')
             net = pixelShuffler(net, scale=2)
             net = prelu_tf(net)
 
-        with tf.variable_scope('subpixelconv_stage2'):
+        with tf.compat.v1.variable_scope('subpixelconv_stage2'):
             net = conv2(net, 3, 256, 1, scope='conv')
             net = pixelShuffler(net, scale=2)
             net = prelu_tf(net)
 
-        with tf.variable_scope('output_stage'):
+        with tf.compat.v1.variable_scope('output_stage'):
             net = conv2(net, 9, gen_output_channels, 1, scope='conv')
 
         return net
