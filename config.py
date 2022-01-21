@@ -17,8 +17,8 @@
 # Flask settings
 DEBUG = False
 
-# Flask-restplus settings
-RESTPLUS_MASK_SWAGGER = False
+# Flask-restx settings
+RESTX_MASK_SWAGGER = False
 SWAGGER_UI_DOC_EXPANSION = 'none'
 
 # API metadata

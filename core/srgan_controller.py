@@ -31,11 +31,14 @@ class SRGAN_controller:
 
     def __init__(self, checkpoint, NUM_RESBLOCK=16):
         '''Initialize the TF graph.'''
+
+        tf.compat.v1.disable_eager_execution()
+
         # Initialize the input with the correct dimensions
-        self.inputs_raw = tf.placeholder(tf.float32, shape=[1, None, None, 3], name='inputs_raw')
+        self.inputs_raw = tf.compat.v1.placeholder(tf.float32, shape=[1, None, None, 3], name='inputs_raw')
 
         # Build the network
-        with tf.variable_scope('generator'):
+        with tf.compat.v1.variable_scope('generator'):
             gen_output = generator(self.inputs_raw, 3, reuse=False, is_training=False, num_resblock=NUM_RESBLOCK)
 
         with tf.name_scope('convert_image'):
@@ -54,16 +57,16 @@ class SRGAN_controller:
             }
 
         # Define the weight initializer (At inference time, we only need to restore the weight of the generator)
-        var_list = tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, scope='generator')
-        weight_initializer = tf.train.Saver(var_list)
+        var_list = tf.compat.v1.get_collection(tf.compat.v1.GraphKeys.GLOBAL_VARIABLES, scope='generator')
+        weight_initializer = tf.compat.v1.train.Saver(var_list)
 
         # Define the initialization operation
-        tf.global_variables_initializer()
+        tf.compat.v1.global_variables_initializer()
 
-        config = tf.ConfigProto()
+        config = tf.compat.v1.ConfigProto()
         config.gpu_options.allow_growth = True
 
-        self.sess = tf.Session(config=config)
+        self.sess = tf.compat.v1.Session(config=config)
         # Load the pretrained model
         weight_initializer.restore(self.sess, checkpoint)
 

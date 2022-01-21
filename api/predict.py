@@ -17,10 +17,10 @@
 from flask import send_file
 from core.model import ModelWrapper
 from maxfw.core import MAX_API, PredictAPI
-from flask_restplus import abort
+from flask_restx import abort
 from werkzeug.datastructures import FileStorage
 
-# Set up parser for input data (http://flask-restplus.readthedocs.io/en/stable/parsing.html)
+# Set up parser for input data (http://flask-restx.readthedocs.io/en/stable/parsing.html)
 input_parser = MAX_API.parser()
 input_parser.add_argument('image', type=FileStorage, location='files',
                           required=True,
