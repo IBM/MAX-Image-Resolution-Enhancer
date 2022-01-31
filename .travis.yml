@@ -15,17 +15,50 @@
 #
 
 language: python
+
 python:
-  - 3.6
+  - 3.7
+
 services:
   - docker
+
+before_install:
+  # Replace all slashes (which are common in branch names) in VERSION with dashes for Docker compatibility
+  - if [[ "$TRAVIS_BRANCH" == "master" ]]; then
+      VERSION=latest;
+    else
+      VERSION=${TRAVIS_BRANCH//\//-};
+    fi
+
+  # Default variables (used by Jenkins)
+  - '[[ -z "$DOCKERFILE" ]] && export DOCKERFILE=Dockerfile || /bin/true'
+  - '[[ -z "$IMAGE" ]] && export IMAGE=test || /bin/true'
+  - '[[ -z "$ARCH" ]] && export ARCH=x86_64 || /bin/true'
+  - '[[ -z "$VERSION" ]] && export VERSION=jenkins || /bin/true'
+
 install:
-  - docker build -t max-image-resolution-enhancer .
-  - docker run -it -d --rm -p 5000:5000 max-image-resolution-enhancer
+  - docker build -f "$DOCKERFILE" -t quay.io/codait/max-image-resolution-enhancer:"$IMAGE"-"$ARCH"-"$VERSION" .
+  - docker run -it -d --rm -p 5000:5000 quay.io/codait/max-image-resolution-enhancer:"$IMAGE"-"$ARCH"-"$VERSION"
   - pip install -r requirements-test.txt
+
 before_script:
   - flake8 . --max-line-length=127
   - bandit -r . --exclude /tests,/training
   - sleep 30
+
 script:
   - pytest tests/test.py
+
+after_success:
+  - if [[ "$IMAGE" != "test" && "$TRAVIS_PULL_REQUEST" == "false" ]] && [[ "$TRAVIS_BRANCH" == "master" || "$TRAVIS_BRANCH" == "$TRAVIS_TAG" ]]; then
+      echo "$DOCKER_PASS_QUAY" | docker login -u "$DOCKER_USER_QUAY" --password-stdin quay.io;
+      docker push quay.io/codait/max-image-resolution-enhancer:"$IMAGE"-"$ARCH"-"$VERSION";
+    fi
+
+matrix:
+  include:
+  - os: linux
+    env: DOCKERFILE=Dockerfile IMAGE=intel ARCH=x86_64
+  - os: linux
+    arch: arm64
+    env: DOCKERFILE=Dockerfile.arm32v7 IMAGE=arm ARCH=arm32v7

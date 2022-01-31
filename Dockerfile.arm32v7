@@ -1,0 +1,26 @@
+FROM quay.io/codait/max-base:arm-arm32v7-v1.4.0
+
+RUN sudo apt-get update && sudo apt-get -y install libatlas3-base libhdf5-dev libc-ares-dev libeigen3-dev && sudo rm -rf /var/lib/apt/lists/*
+
+ARG model_bucket=https://max-cdn.cdn.appdomain.cloud/max-image-resolution-enhancer/1.0.0
+ARG model_file=assets.tar.gz
+
+RUN wget -nv --show-progress --progress=bar:force:noscroll ${model_bucket}/${model_file} --output-document=assets/${model_file} && \
+  tar -x -C assets/ -f assets/${model_file} -v && rm assets/${model_file}
+
+COPY requirements.txt .
+RUN python -m pip install https://www.piwheels.org/simple/tensorflow/tensorflow-1.13.1-cp37-none-linux_armv7l.whl
+# Skip tensorflow in requirements.txt due to lack of arm build
+RUN grep -v 'tensorflow' requirements.txt | python -m pip install -r /dev/stdin
+# need a newer version of numpy for the arm version of tf
+RUN pip install numpy==1.20.0
+
+
+COPY . .
+
+# check file integrity
+RUN sha512sum -c sha512sums.txt
+
+EXPOSE 5000
+
+CMD python app.py
