@@ -100,7 +100,7 @@ $ kubectl apply -f https://github.com/IBM/max-image-resolution-enhancer/raw/mast
 
 The model will be available internally at port `5000`, but can also be accessed externally through the `NodePort`.
 
-A more elaborate tutorial on how to deploy this MAX model to production on [IBM Cloud](https://ibm.biz/Bdz2XM) can be found [here](http://ibm.biz/max-to-ibm-cloud-tutorial).
+A more elaborate tutorial on how to deploy this MAX model to production on [IBM Cloud](https://ibm.biz/Bdz2XM) can be found [here](./docs/max-to-ibm-cloud-tutorial.md).
 
 ## Run Locally
 
